@@ -1,0 +1,148 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:mvc="http://www.springframework.org/schema/mvc"
+	   xmlns:tx="http://www.springframework.org/schema/tx"
+	   xmlns:task="http://www.springframework.org/schema/task"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/tx
+	 	http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+        http://www.springframework.org/schema/mvc
+     	http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
+     	http://www.springframework.org/schema/task
+     	http://www.springframework.org/schema/task/spring-task-3.0.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+	<!--	 定时器 	-->
+	<task:annotation-driven/>
+
+
+	<context:component-scan base-package="com.y55555a.oasystem.action" />
+	<context:component-scan base-package="com.y55555a.oasystem.service" />
+	<context:component-scan base-package="com.y55555a.oasystem.timing" />
+	<context:component-scan base-package="com.y55555a.oasystem.dto" />
+	<context:component-scan base-package="com.y55555a.oasystem.init" />
+	<context:component-scan base-package="com.y55555a.oasystem.listener" />
+
+<!--	<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping" />-->
+<!--	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" />-->
+	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping" />
+	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter" />
+
+
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/jspFile/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+
+	<mvc:annotation-driven>
+		<!-- 解决@ResponseBody中文乱码 -->
+		<mvc:message-converters>
+			<bean class="org.springframework.http.converter.StringHttpMessageConverter">
+				<constructor-arg value="UTF-8" />
+			</bean>
+		</mvc:message-converters>
+	</mvc:annotation-driven>
+
+	<!-- 默认首页 -->
+	<mvc:view-controller path="/" view-name="forward:/welcome.do" />
+
+	<!-- 事务 -->
+	<bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	<!-- 事务控制   -->
+	<tx:annotation-driven transaction-manager="txManager" />
+
+	<!-- 拦截器开始 -->
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<bean class="com.y55555a.oasystem.interceptor.UserLogInterceptor" />
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<bean class="com.y55555a.oasystem.interceptor.LogInterceptor" />
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/manage/userManagerEdit.do" />
+			<mvc:mapping path="/manage/userManager.do" />
+			<mvc:mapping path="/manage/changeUserInfoAllFrom.do" />
+			<bean class="com.y55555a.oasystem.interceptor.WebManagerInterceptor" />
+		</mvc:interceptor>
+	</mvc:interceptors>
+	<!-- 拦截器结束 -->
+
+
+<!--	<bean id = "WebContextListener" class="com.y55555a.oasystem.listener.WebContextListener"></bean>-->
+	<!-- 整个应用的 -->
+	<bean id="webInit" class="com.y55555a.oasystem.init.WebInit"></bean>
+	<!-- 初始化器结束 -->
+
+	<bean id="testServletContextAware" class="com.y55555a.oasystem.init.TestServletContextAware"></bean>
+
+	<!-- 文件上传下载配置 -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="defaultEncoding" value="UTF-8" />
+		<property name="maxUploadSize" value="10000000" />
+	</bean>
+
+
+	<!-- 流程++++++++++++++++++++ -->
+	<bean id="procedureDao" class="com.y55555a.oasystem.dto.ProcedureDao"></bean>
+	<bean id="procedureService" class="com.y55555a.oasystem.service.ProcedureService">
+		<property name="procedureDao" ref="procedureDao" />
+		<property name="messageDao" ref="messageDao" />
+	</bean>
+
+	<!-- 用户类型++++++++++++++++++++ -->
+	<bean id="userKindDao" class="com.y55555a.oasystem.dto.UserKindDao"></bean>
+	<bean id="userKindService" class="com.y55555a.oasystem.service.UserKindService">
+		<property name="userKindDao" ref="userKindDao" />
+	</bean>
+
+	<!-- 消息类型++++++++++++++++++++ -->
+	<bean id="msgKindDao" class="com.y55555a.oasystem.dto.MsgKindDao"></bean>
+	<bean id="msgKindService" class="com.y55555a.oasystem.service.MsgKindService">
+		<property name="msgKindDao" ref="msgKindDao" />
+	</bean>
+
+	<!-- 消息列表++++++++++++++++++++ -->
+	<bean id="messageDao" class="com.y55555a.oasystem.dto.MessageDao"></bean>
+	<bean id="messageService" class="com.y55555a.oasystem.service.MessageService">
+		<property name="messageDao" ref="messageDao" />
+	</bean>
+
+	<!-- 文件仓库++++++++++++++++++++ -->
+	<bean id="fileDepotDao" class="com.y55555a.oasystem.dto.FileDepotDao"></bean>
+	<bean id="fileDepotService" class="com.y55555a.oasystem.service.FileDepotService">
+		<property name="fileDepotDao" ref="fileDepotDao" />
+	</bean>
+
+	<!-- ++++++++++++++++++++ -->
+	<bean id="userInfoDao" class="com.y55555a.oasystem.dto.UserInfoDao"></bean>
+	<bean id="userService" class="com.y55555a.oasystem.service.UserService">
+		<property name="userInfoDao" ref="userInfoDao" />
+	</bean>
+
+	<!-- ++++++++++++++++++++ -->
+	<bean id="remindDao" class="com.y55555a.oasystem.dto.RemindDao"></bean>
+	<bean id="remindService" class="com.y55555a.oasystem.service.RemindService">
+		<property name="remindDao" ref="remindDao" />
+		<property name="procedureDao" ref="procedureDao" />
+	</bean>
+
+	<!-- ++++++++++++++++++++ -->
+	<bean id="partDao" class="com.y55555a.oasystem.dto.PartDao"></bean>
+	<bean id="partService" class="com.y55555a.oasystem.service.PartService">
+		<property name="partDao" ref="partDao" />
+	</bean>
+
+	<!-- ++++++++++++++++++++ -->
+	<bean id="groupDao" class="com.y55555a.oasystem.dto.GroupDao"></bean>
+	<bean id="groupService" class="com.y55555a.oasystem.service.GroupService">
+		<property name="groupDao" ref="groupDao" />
+	</bean>
+
+</beans>

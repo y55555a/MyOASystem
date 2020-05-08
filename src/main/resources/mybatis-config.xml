@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <settings>
+        <setting name="useGeneratedKeys" value="true"/>
+        <setting name="useColumnLabel" value="true"/>
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
+
+<!--    &lt;!&ndash; 在映射文件中，可以直接使用 Course 表示entity.Course（即起别名） &ndash;&gt;-->
+<!--    <typeAliases>-->
+<!--        <typeAlias type="com.y55555a.oasystem.entity.FileDepot" alias="FileDepot" />-->
+<!--        <typeAlias type="com.y55555a.oasystem.entity.Group" alias="Group" />-->
+<!--        <typeAlias type="com.y55555a.oasystem.entity.Message" alias="Message" />-->
+<!--        <typeAlias type="com.y55555a.oasystem.entity.MessageKind" alias="MessageKind" />-->
+<!--        <typeAlias type="com.y55555a.oasystem.entity.ModelOption" alias="ModelOption" />-->
+<!--        <typeAlias type="com.y55555a.oasystem.entity.ModelProcedure" alias="ModelProcedure" />-->
+<!--        <typeAlias type="com.y55555a.oasystem.entity.ModelShen" alias="ModelShen" />-->
+<!--        <typeAlias type="com.y55555a.oasystem.entity.Part" alias="Part" />-->
+<!--        <typeAlias type="com.y55555a.oasystem.entity.ProcedureOption" alias="ProcedureOption" />-->
+<!--        <typeAlias type="com.y55555a.oasystem.entity.ProcedureShen" alias="ProcedureShen" />-->
+<!--        <typeAlias type="com.y55555a.oasystem.entity.ProcedureSubmit" alias="ProcedureSubmit" />-->
+<!--        <typeAlias type="com.y55555a.oasystem.entity.Remind" alias="Remind" />-->
+<!--        <typeAlias type="com.y55555a.oasystem.entity.UserInfo" alias="UserInfo" />-->
+<!--        <typeAlias type="com.y55555a.oasystem.entity.UserKind" alias="UserKind" />-->
+<!--    </typeAliases>-->
+
+<!--    &lt;!&ndash; 类与表的映射文件 &ndash;&gt;-->
+<!--    <mappers>-->
+<!--        <mapper resource="mapper/FileDepotMapper.xml" />-->
+<!--        <mapper resource="mapper/GroupMapper.xml" />-->
+<!--        <mapper resource="mapper/MessageMapper.xml" /> &lt;!&ndash; 11 &ndash;&gt;-->
+<!--        <mapper resource="mapper/MessageKindMapper.xml" />  &lt;!&ndash; 没有有的 &ndash;&gt;-->
+<!--        <mapper resource="mapper/ModelOptionMapper.xml" />-->
+<!--        <mapper resource="mapper/ModelProcedureMapper.xml" />-->
+<!--        <mapper resource="mapper/ModelShenMapper.xml" />-->
+<!--        <mapper resource="mapper/PartMapper.xml" />-->
+<!--        <mapper resource="mapper/ProcedureOptionMapper.xml" />-->
+<!--        <mapper resource="mapper/ProcedureShenMapper.xml" />  &lt;!&ndash; 注意！！！ &ndash;&gt;-->
+<!--        <mapper resource="mapper/ProcedureSubmitMapper.xml" />-->
+<!--        <mapper resource="mapper/RemindMapper.xml" />-->
+<!--        <mapper resource="mapper/UserInfoMapper.xml" />-->
+<!--        <mapper resource="mapper/UserKindMapper.xml" />-->
+<!--        <mapper resource="mapper/UserFrozenMapper.xml" />-->
+<!--    </mappers>-->
+
+</configuration>
